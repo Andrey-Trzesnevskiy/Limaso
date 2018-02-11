@@ -1,7 +1,7 @@
 {
-  "name": "hillel-evo-event-messenger",
+  "name": "Limaso",
   "version": "1.1.0",
-  "description": "hillel-evo event messenger",
+  "description": "Limaso",
   "main": "index.js",
   "scripts": {
     "server": "node server/index.js"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "",
+  "author": "Andrey Trzesnevskiy",
   "license": "ISC",
   "bugs": {
     "url": ""
