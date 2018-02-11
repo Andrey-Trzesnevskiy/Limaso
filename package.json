@@ -1,0 +1,22 @@
+{
+  "name": "hillel-evo-event-messenger",
+  "version": "1.1.0",
+  "description": "hillel-evo event messenger",
+  "main": "index.js",
+  "scripts": {
+    "server": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "node-static": "^0.7.10"
+  }
+}

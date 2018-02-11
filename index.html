@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta keywords= "">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" href="css/style.css">
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> 
+		<script src="JS/jqapi/assets/bundle.js"></script>-->
+		<script src="js/main.js"></script>  
+		<title>Limaso</title>
+	</head>
+	<body>
+
+		
+		<div class="popup non-vis">
+    		<div class="popup-content">
+				<div class="close-popup">
+					<img src="img/close-icon.png" alt="close-popup">
+				</div>
+        		<form>
+					<div class="card-data">Данные банковской карты</div>
+					<div class="card-info">
+						<div>
+							<div>Номер карты</div>
+							<div class="card-number">
+								<input type="text"
+								pattern="[0-9]{4}"
+								title="Поле должно содержать 4 цифры">
+								<input type="text"		
+								pattern="[0-9]{4}"
+								title="Поле должно содержать 4 цифры">
+								<input type="text"
+								pattern="[0-9]{4}"
+								title="Поле должно содержать 4 цифры">
+								<input type="text"
+								pattern="[0-9]{4}"
+								title="Поле должно содержать 4 цифры">
+							</div>
+						</div>
+						<div class="valid-to">
+							<div>Срок действия</div>
+							<select name="month"> 
+									<option>01</option>
+									<option>02</option>
+									<option>03</option>
+									<option>04</option>
+									<option>05</option>
+									<option>06</option>
+									<option>07</option>
+									<option>08</option>
+									<option>09</option>
+									<option>10</option>
+									<option>11</option>
+									<option>12</option>
+							</select>
+							<select name="year"> 
+									<option>2018</option>
+									<option>2019</option>
+									<option>2020</option>
+									<option>2021</option>
+									<option>2022</option>
+									<option>2023</option>
+									<option>2024</option>
+							</select>
+							<div>
+								<input type="text"
+								placeholder="Держатель карты"
+								pattern="[a-zA-Z]{4,}"
+								title="Поле должно содержать минимум 4 буквы латинского алфавита">
+							</div>
+						</div>	
+					</div>
+					<div class="card-code">
+						<div class="buffer"></div>
+						<div class="stripe"></div>
+						<div class="valid-code">Код CVV2 / CVC2</div>
+						<input type="text"
+						class="cvv"
+						pattern="[0-9]{3}"
+						title="Поле должно содержать 3 цифры">
+					</div>
+					<button class="payment">Оплатить</button>
+				</form>
+    		</div>
+		</div>
+
+		<div class="popupHeader non-vis">
+			<div class="popupHeader-content">
+				<div class="close-popup">
+					<img src="img/close-icon.png" alt="close-popup">
+				</div>
+				<div class="popup-text"></div>
+			</div>
+		</div>	
+	
+		<header>
+			<div class="row header-menu">
+				<div class="logo">
+					<a href=""><img src="img/logo.png" alt="logo"></a>
+				</div>
+				<div class="wrap-for-menu">
+					<div class="hmbg-menu icon-menu-outline"></div>
+					
+						<ul class="menu hidden">
+							<li><a href="">Ткани для интерьера</a></li>
+							<li><a href="">Домашний текстиль</a></li>
+							<li><a href="">Коллекции из текстиля</a></li>
+							<li><a href="">Ресторанный текстиль</a></li>
+							<li><a href="">Отельный текстиль</a></li>
+						</ul>
+					
+				</div>
+				<div class="menu-icons">
+					<span class="icon-search"></span>
+					<span class="icon-user"></span>
+					<span class="icon-basket"></span>
+				</div>
+			</div>
+			<div class="banner row middle-xs">
+				<div class="wrapper banner-content row middle-xs center-xs">
+					<div class="banner-text">
+						<div class="text-white">Изысканный дизайн</div>
+						<div class="text-brown">теплых покрывал</div>
+						<div class="text-choice">Смотрите и выбирайте который вам по душе</div>
+						<button class="open-popup">Смотреть</button>
+					</div>		
+				</div>
+			</div>
+		</header>
+	
+		<main>
+			<div class="wrapper">
+				<div class="nav">
+					<ul>
+						<li><a href="">Главная</a></li>
+						<li>/</li>
+						<li><a href="">Каталог</a></li>
+						<li>/</li>
+						<li class="active"><a href="">Покрывала</a></li>
+					</ul>
+				</div>
+				<div class="row">
+					<div class="filters col-xs-3">
+						<aside>
+							<div class="deco category">Категории</div>
+							<div class="head-category">Домашний текстиль<span class="plus-or-minus">+</span></div>
+							<div class="filter non-vis">
+							<div class="category-items">
+								<div>
+									<label for="tapestry-bags">Гобеленовые сумки</label>
+								</div>
+								<div>
+									<label for="tablecloth">Скатерти</label>
+								</div>
+								<div>
+									<label for="rugs">Пледы</label>
+								</div>
+								<div>
+									<label for="towels">Полотенца</label>
+
+								</div>
+							</div>	
+								<div class="category-checkbox">
+									<input type="checkbox" id="tapestry-bags">
+									<input type="checkbox" id="tablecloth">
+									<input type="checkbox" id="rugs">
+									<input type="checkbox" id="towels">
+								</div>
+							</div>
+							<div class="deco price">Цена</div>
+							<div class="price-range">
+								<input type="range" multiple min="0" step="1" max="10000" data-values="0 10000" value="">
+							</div>
+						</aside>
+					</div>
+					<div class="goods col-xs-9">
+						<div class="select">
+							<select name="select"> 
+								<option>Сортировать по</option>
+								<option>Возрастанию цены</option>
+								<option>Убыванию цены</option>
+							</select>
+						</div>
+						<div class="goods-items row">
+						
+						</div>
+					</div>
+				</div>	
+			</div>
+		</main>
+		
+		<footer>
+			<div class="wrapper info">
+				<div class="logo-footer row middle-xs center-xs">
+					<img src="img/logo-footer.png" alt="logo">
+				</div>
+				<div class="row">
+					<div class="col-xs-3 col-sm">
+						<div class="title">Контакты</div>
+						<div>
+							<p class="icon-home"></p>
+							<div class="adress">
+								г. Львов, Кольцевая дорога<br>
+								с. Зымна Вода, ул. Яворовская, 22<br>
+								ТЦ "Три Слона. Все для дома "
+							</div>
+						</div>
+						<div>	
+							<p class="icon-phone"></p>
+							<div class="telephone-number">
+								+380(067)674-20-21<br>
+								+380(068)674-54-17
+							</div>
+						</div>
+						<div class="visa-logo"><img src="img/visa.png" alt="visa-logo"></div>
+					</div>
+					<div class="col-xs-3 col-sm">
+						<div class="title">Магазин</div>
+						<ul>
+							<li>Акции</li>
+							<li>О нас</li>
+							<li>Доставка</li>
+							<li>Политика безопасности</li>
+							<li>Услуги</li>
+							<li>Возврат товара</li>
+						</ul>
+					</div>
+					<div class="col-xs-3 col-sm">
+						<div class="title">Клиентам</div>
+						<ul>
+							<li>Личный кабинет</li>
+							<li>История заказов</li>
+							<li>Закладки</li>
+							<li>Рассылка</li>
+							<li>Партнерская программа</li>
+						</ul>
+					</div>
+					<div class="col-xs-3 col-sm">
+						<div class="title">Дополнительно</div>
+						<ul>
+							<li>Производители</li>
+							<li>Подарочные сертификаты</li>
+							<li>Скидки и распродажи</li>
+							<li>Карта сайта</li>
+							<li>Связатся с нами</li>
+						</ul>
+					</div>
+				</div>	
+			</div>
+			<div class="copyright">
+				<div class="row wrapper">
+					<div class="limaso col-xs-4">
+						LIMASO © 2017. Все права защищены.
+					</div>
+					<div class="icons col-xs-8">
+						<span class="icon-facebook"><a href="#"></a></span>
+						<span class="icon-twitter"><a href="#"></a></span>
+						<span class="icon-rss"><a href="#"></a></span>
+						<span class="icon-gplus"><a href="#"></a></span>
+						<span class="icon-linkedin"><a href="#"></a></span>
+					</div>
+				</div>
+					
+			</div>	
+		</footer>
+	
+	</body>
+</html>
