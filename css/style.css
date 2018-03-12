@@ -84,6 +84,8 @@ html {
 }
 select[name="month"], select[name="year"] {
   margin: 15px 0;
+  background-color: white;
+  width: 65px;
 }
 .card-info {
   background-color:#f7f8f8;
@@ -164,17 +166,13 @@ input {
     width: 100%;
     margin: auto;
 }
-
 /*=====header========*/
-.sticky {
-  position: fixed;
-  top: 0; 
-  left: 0;
+header {
   width: 100%;
-  border-bottom: solid #ccc 1px;
   z-index: 2;
-  
+  border-bottom: solid #ccc 1px;
 }
+
 .header-menu {
   background-color: #ffffff;
 }
@@ -214,7 +212,6 @@ header .logo {
   height: 450px;
   background-image: url(../img/banner-background.jpg);
 }
-
 .banner-content {
   height: 320px;
   background-color: #7f7f7f;
@@ -345,6 +342,9 @@ input[type="range"]::-ms-thumb {
   width: 50px;
   background-color: #ccc;
   margin: 8px;
+}
+.price-range {
+  width: 65%;
 }
 .goods-items {
   margin-bottom: 30px;

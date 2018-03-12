@@ -129,7 +129,21 @@ class Goods {
         this.render(targetRender, cssClasses);
     }
 }
+
+class TransferService {
+	constructor () {
+		this.data = {}
+	}
+	setData (params) {
+		this.data[params.name] = params.data;
+	}
+	getData (name) {
+		return this.data[name];
+	}
+}
+
 window.onload = function () {
+    let transfer = new TransferService();
     let transferRange = true;
     let modelChanged = false;
     let parentRange = document.querySelector('.price-range');
@@ -139,6 +153,7 @@ window.onload = function () {
     let container = elm.parentNode;
     let values = elm.getAttribute('data-values').split(' ');
     let rangeCheck = true;
+
     values.forEach(function (value, i, values) {
         inputPrice[i] = elm.cloneNode();
         inputPrice[i].type = 'range';
@@ -149,12 +164,11 @@ window.onload = function () {
         outputPrice[i] = document.createElement('input');
         parentRange.appendChild(outputPrice[i]);
         outputPrice[i].classList.add('price-show');
+        outputPrice[i].value = inputPrice[i].value;
         inputPrice[i].addEventListener('input', rangeHandler);
 
-        outputPrice[i].value = inputPrice[i].value;
         function rangeHandler () {
             modelChanged = true;
-            
             if (+inputPrice[0].value >= +inputPrice[1].value) {
                 inputPrice[1].value = inputPrice[0].value;
             }
@@ -162,19 +176,19 @@ window.onload = function () {
             arrayBuf = new Array();
             let currModel;
             if (rangeCheck) {
-                currModel = transferServiceSwitcher.get() || model;
+                currModel = transfer.getData('switcher') || model;
             }
             else {
-                currModel = transferServiceFilterToRange.get();
+                currModel = transfer.getData('filterToRange');
             }
             let arrayBufWithoutFilter = new Array();
-            let rangeModelWithoutFilter = transferServiceSwitcher.get() || model;
+            let rangeModelWithoutFilter = transfer.getData('switcher') || model;
             rangeModelWithoutFilter.forEach(function(item){
                 if (+item.price > +inputPrice[0].value && +item.price < +inputPrice[1].value){
                     arrayBufWithoutFilter[arrayBufWithoutFilter.length] = item;
                 }
             })
-            transferServiceRangeWithoutFilter.set(arrayBufWithoutFilter);
+            transfer.setData({name: 'RangeWithoutFilter', data: arrayBufWithoutFilter});
             console.log(currModel);
             currModel.forEach(function(item) {
             
@@ -185,7 +199,7 @@ window.onload = function () {
             let goodsRange = new Goods(arrayBuf);
             goodsRange.rerender();
             popUpHandler();
-            transferServiceRange.set(arrayBuf);
+            transfer.setData({name: 'serviceRange', data: arrayBuf});
             transferRange = true;
             
         }
@@ -193,57 +207,6 @@ window.onload = function () {
 
     elm.remove();
 
-    let data;
-    let transferServiceSwitcher = {
-        get: function() {
-            return data
-        },
-        set: function(param) {
-            data = param;
-        }
-    }
-
-    let modelArr;
-    let transferServiceRangeWithoutFilter = {
-        get: function() {
-            return modelArr
-        },
-        set: function(param) {
-            modelArr = param;
-        }
-    }
-
-    let arrData;
-    let transferServiceRange = {
-        get: function() {
-            return arrData
-        },
-        set: function(param) {
-            arrData = param;
-        }
-    }
-
-    let dataArr;
-    let transferServiceFilter = {
-        get: function() {
-            return dataArr
-        },
-        set: function(param) {
-            dataArr = param;
-        }
-    }
-
-    let goodsArr;
-    let transferServiceFilterToRange = {
-        get: function() {
-            return goodsArr
-        },
-        set: function(param) {
-            goodsArr = param;
-        }
-    }
-    
-    
     let goodsItems = new Goods(model);
     let targetRender = document.querySelector('.goods-items');
     goodsItems.render(targetRender, cssClasses);
@@ -256,11 +219,11 @@ window.onload = function () {
         
         if (modelChanged == true) {
             if (transferRange) {
-                arr =  transferServiceRange.get();
+                arr =  transfer.getData('serviceRange');
                 console.log(arr);
             }
             else {
-                arr = transferServiceFilter.get();
+                arr = transfer.getData('serviceFilter');
                 console.log(arr);
             }  
         }
@@ -272,31 +235,52 @@ window.onload = function () {
             let incrModel = sortArrayIncr(arr);
             let goodsIncr = new Goods(incrModel)
             goodsIncr.rerender();
-            transferServiceSwitcher.set(incrAllGoods);
+            transfer.setData({name: 'switcher', data: incrAllGoods});
+            transfer.setData({name: 'sortedForRender', data: incrModel});
         }
         else if (switcher.value == "Убыванию цены") {
             let decAllGoods = sortArrayDec(model);
             let decModel = sortArrayDec(arr);
             let goodsDec = new Goods(decModel);
             goodsDec.rerender();
-            transferServiceSwitcher.set(decAllGoods);
-            
+            transfer.setData({name: 'switcher', data: decAllGoods});
+            transfer.setData({name: 'sortedForRender', data: decModel});
         }
         else if (switcher.value == "Сортировать по") {
-            
             let goodsCurr = new Goods(arr);
             goodsCurr.rerender();
-            transferServiceSwitcher.set(model);
-            
+            let defaultModel = sortDefault(arr);
+            transfer.setData({name: 'switcher', data: model});
+            transfer.setData({name: 'sortedForRender', data: defaultModel});
         }
-        popUpHandler();
-           
+        popUpHandler(); 
+    }
+
+    function sortDefault (arr) {
+        let arrPush = true;
+        let sortedArr = new Array();
+        for (let i=0; i<arr.length; i++) {
+            for (let j=0; j<sortedArr.length; j++) {
+                if (arr[i].id > sortedArr[j].id) {
+                    arrPush = true;
+                    continue
+                }
+                else {
+                    sortedArr.splice(j, 0, arr[i]);
+                    arrPush = true;
+                    break
+                }
+            }
+            if (arrPush) {
+                sortedArr.push(arr[i]);
+            }
+        }
+        return sortedArr
     }
 
     function sortArrayIncr (arr) {
         let arrPush = true;
         let arrIncr = new Array();
-        let arrDec = new Array();
         for (let i=0; i<arr.length; i++) {
             for (let j=0; j<arrIncr.length; j++) {
                 if (+arr[i].price > +arrIncr[j].price) {
@@ -309,7 +293,7 @@ window.onload = function () {
                     break
                 }
             }
-        if (arrPush == true) {
+        if (arrPush) {
             arrIncr.push(arr[i]);
             }
         }
@@ -318,25 +302,24 @@ window.onload = function () {
 
     function sortArrayDec (arr) {
         let arrPush = true;
-        let arrIncr = new Array();
         let arrDec = new Array();
         for (let i=0; i<arr.length; i++) {
-            for (let j=0; j<arrIncr.length; j++) {
-                if (+arr[i].price < +arrIncr[j].price) {
+            for (let j=0; j<arrDec.length; j++) {
+                if (+arr[i].price < +arrDec[j].price) {
                     arrPush = true;
                     continue
                 }
                 else {
-                    arrIncr.splice(j, 0, arr[i]);
+                    arrDec.splice(j, 0, arr[i]);
                     arrPush = false;
                     break
                 }
             }
-        if (arrPush == true) {
-            arrIncr.push(arr[i]);
+        if (arrPush) {
+            arrDec.push(arr[i]);
             }
         }
-        return arrIncr;
+        return arrDec;
     }
 
     // sort by meta-info
@@ -372,27 +355,27 @@ window.onload = function () {
         let currModel;
         
         if (filterNone) {
-            currModel = transferServiceRange.get() || model;
+            currModel =  transfer.getData('serviceRange');
             console.log('filterNone', filterNone)
         }
         else {
-            currModel = transferServiceSwitcher.get() || model;
+            currModel = transfer.getData('sortedForRender') || model;
         }
-        let allModel = transferServiceSwitcher.get() || model;
+        let allModel = transfer.getData('switcher') || model;
         if (isEmptyObject(metaObj)) {
             filterNone = true;
             
-            let metaModelGoodDefault = new Goods(transferServiceRangeWithoutFilter.get() || model);
+            let metaModelGoodDefault = new Goods(transfer.getData('RangeWithoutFilter') || model)
             metaModelGoodDefault.rerender();
             popUpHandler();
-            transferServiceFilter.set(allModel);
-            console.log(transferServiceRange.get());
+            transfer.setData({name: 'serviceFilter', data: allModel});
+            console.log(transfer.getData('serviceRange'));
             rangeCheck = true;
         }
         else {
             rangeCheck = false;
             filterNone = false;
-            let goodsWithoutFilter = transferServiceRangeWithoutFilter.get() || model;
+            let goodsWithoutFilter = transfer.getData('RangeWithoutFilter') || model;
             console.log(currModel);
             for (let key in metaObj) {
                 goodsWithoutFilter.forEach(function(item, i){
@@ -409,8 +392,8 @@ window.onload = function () {
              
             let metaRender = new Goods(filter);
             metaRender.rerender();
-            transferServiceFilter.set(filter);
-            transferServiceFilterToRange.set(allFilter);
+            transfer.setData({name: 'serviceFilter', data: filter});
+            transfer.setData({name: 'filterToRange', data: allFilter});
             console.log('rangeCheck',rangeCheck);
             console.log(filter);
             popUpHandler();
@@ -497,9 +480,8 @@ function showHide () {
 
         return new Promise(function(resolve, reject) {
       
-          var xhr = new XMLHttpRequest();
+          let xhr = new XMLHttpRequest();
           xhr.open('GET', url, true);
-      
           xhr.onload = function() {
             if (this.status == 200) {
               resolve(this.response);
@@ -519,22 +501,38 @@ function showHide () {
     window.onscroll = function() {
         scrollPage()
     };
-    let header = document.querySelector ('.header-menu');
-    let headerHeight = header.offsetHeight;
-    let startScroll = 0;
-    function scrollPage () {
-        let scrolled = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrolled < headerHeight) {
-            header.classList.remove('sticky');
-        }
-        else if (scrolled < startScroll) {
-            header.classList.add('sticky');
-        }
-        else {
-            header.classList.remove('sticky');
-        }
-        startScroll = scrolled;
-    }
+
+    let header = document.querySelector ('header');
+	let headerHeight = header.clientHeight;
+	let content = document.querySelector('.banner');
+	content.style.marginTop = headerHeight+'px';
+	let startScroll = 0;
+	let transferScrollData = new TransferService();
+
+	function scrollPage () { 
+		let scrolled = window.pageYOffset || document.documentElement.scrollTop;
+
+		if (scrolled > startScroll) {
+		    header.style.position = 'absolute';
+		    let topHeader = transferScrollData.getData('currScroll') || 0;
+		    header.style.top = topHeader+'px';
+		    transferScrollData.setData({name: 'scrollForAbs', data: scrolled});
+		    }
+		 else if (scrolled < startScroll) {
+		  	let scrollForHeader = transferScrollData.getData('scrollForAbs');
+		  	if (scrollForHeader - headerHeight < scrolled) {
+		  		header.style.position = 'absolute';
+		  		header.style.top = scrollForHeader-headerHeight + 'px';
+		  	}
+		  	else {
+		  		header.style.position = 'fixed';
+		    	header.style.top = '0px';
+		    	transferScrollData.setData({name: 'currScroll' ,data:scrolled});
+		  	}
+		}
+		startScroll = scrolled;
+	}	
+
 // hmbg menu
     let hmbgMenu = document.querySelector('.hmbg-menu');
     let menu = document.querySelector('.menu');

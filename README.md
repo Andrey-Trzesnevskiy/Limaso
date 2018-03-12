@@ -2,7 +2,7 @@
 
 # Для запуска установить node modules
 
-`npm install`
+`npm install node-modules`
 
 # Затем установить node-static
 
